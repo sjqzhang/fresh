@@ -65,6 +65,28 @@ var colors = map[string]string{
 	"bright_white":   "37;2",
 }
 
+func GetDefaultSettings() string {
+	tpl := `root: %v
+work_dir:         %v
+watch_dir:        %v
+tmp_path:          ./tmp
+build_name:        runner-build
+build_log:         runner-build-errors.log
+valid_ext:         .go, .tpl, .tmpl, .html
+no_rebuild_ext:    .tpl, .tmpl, .html
+ignored:           assets, tmp
+build_delay:       600
+colors:            1
+log_color_main:    cyan
+log_color_build:   yellow
+log_color_runner:  green
+log_color_watcher: magenta
+log_color_app:
+`
+	tpl = fmt.Sprintf(tpl, root(), workDir(), watchDir())
+	return tpl
+}
+
 func logColor(logName string) string {
 	settingsKey := fmt.Sprintf("log_color_%s", logName)
 	colorName := settings[settingsKey]

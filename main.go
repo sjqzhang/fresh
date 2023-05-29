@@ -30,6 +30,21 @@ func main() {
 		} else {
 			os.Setenv("RUNNER_CONFIG_PATH", *configPath)
 		}
+	} else {
+		// check runner.conf in current directory
+		// if not exist, create it and write default config
+		settings := runner.GetDefaultSettings()
+		if _, err := os.Stat("runner.conf"); err != nil {
+			fp, err := os.Create("runner.conf")
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			defer fp.Close()
+			fp.WriteString(settings)
+
+		}
+
 	}
 
 	runner.Start()
