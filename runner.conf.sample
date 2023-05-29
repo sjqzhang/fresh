@@ -1,4 +1,6 @@
 root:              .
+work_dir:          .
+watch_dir:         .
 tmp_path:          ./tmp
 build_name:        runner-build
 build_log:         runner-build-errors.log
@@ -12,3 +14,4 @@ log_color_build:   yellow
 log_color_runner:  green
 log_color_watcher: magenta
 log_color_app:
+
