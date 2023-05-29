@@ -20,6 +20,8 @@ const (
 var settings = map[string]string{
 	"config_path":       "./runner.conf",
 	"root":              ".",
+	"watch_dir":         ".",
+	"work_dir":          "",
 	"tmp_path":          "./tmp",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
@@ -109,11 +111,51 @@ func getenv(key, defaultValue string) string {
 }
 
 func root() string {
+	if filepath.IsAbs(settings["root"]) {
+		return settings["root"]
+	}
+	pthah, err := filepath.Abs(settings["root"])
+	if err != nil {
+		return settings["root"]
+	}
+	settings["root"] = pthah
 	return settings["root"]
 }
 
+func workDir() string {
+	if filepath.IsAbs(settings["work_dir"]) {
+		return settings["work_dir"]
+	}
+	pthah, err := filepath.Abs(settings["work_dir"])
+	if err != nil {
+		return settings["work_dir"]
+	}
+	settings["work_dir"] = pthah
+	return settings["work_dir"]
+}
+
+func watchDir() string {
+	if filepath.IsAbs(settings["watch_dir"]) {
+		return settings["watch_dir"]
+	}
+	pthah, err := filepath.Abs(settings["watch_dir"])
+	if err != nil {
+		return settings["watch_dir"]
+	}
+	settings["watch_dir"] = pthah
+	return settings["watch_dir"]
+}
+
 func tmpPath() string {
-	return settings["tmp_path"]
+	if filepath.IsAbs(settings["tmp_path"]) {
+		return settings["tmp_path"]
+	}
+	pthah, err := filepath.Abs(settings["tmp_path"])
+	if err != nil {
+		return settings["tmp_path"]
+	}
+	settings["tmp_path"] = pthah
+	return pthah
 }
 
 func buildName() string {

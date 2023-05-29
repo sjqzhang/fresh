@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -32,12 +33,16 @@ func watchFolder(path string) {
 	err = watcher.Watch(path)
 
 	if err != nil {
-		fatal(err)
+		fmt.Println(err,path)
+		//fatal(err)
 	}
 }
 
 func watch() {
 	root := root()
+	if watchDir() != "" {
+		root = watchDir()
+	}
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
 			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
